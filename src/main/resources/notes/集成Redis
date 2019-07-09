@@ -1,0 +1,41 @@
+Redis是一种运行在内存当中键值数据库，而且是以字符串类型为中心的，当前它能够支持多重数据类型，包括字符串，
+散列，列表，集合，有序集合，基数和地理位置等。
+
+在Spring项目当中使用Redis:
+    我们需要通过连接池创建一个RedisConnectionFactory对象，通过它我们就能够创建RedisConnection接口对象，
+    但是当我们使用一条连接时，我们要先从RedisConnectionFactory工厂获取，然后在使用完成后还要自己去关闭。
+    Spring为简化操作,提供RedisTemplate
+redisTemplate.opsForvalue().set("key1","value1");当存储这样的一对键值对时，从Redis客户端输入
+key*key1，得到的并不是value1。因为Redis是基于字符串存储的NoSQl，而java是基于对象的语言，对象是无法储存到
+Redis中的，不过java中提供了序列化机制，可以将对象转换成二进制字符串。
+所以就有了Redis键序列化器，
+
+RedisSerializer stringRedisSerializer=redisTemplate.getStringSerializer;
+
+设置后能够从复杂的编码得到简单的字符串。
+
+在SpringBoot中使用Redis:
+1.首先要在官网下载Redis，添加服务到本地，（设置开机自动启动该服务）
+2.导入依赖
+        <!--Redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+3.导入依赖后，SpringBoot已将帮我把RedisTemplateFactory，RedisTemplate，StringRedisTemplate
+的常用对象添加到IOC容器当中，因此我们只需要从IOC容器中获取该对象即可。
+可以通过 redis-cli.exe -h 127.0.0.1 -p 6379命令查找key对应的value和设置键值对
+
+Redis的一些特殊用法:
+    Redis除了操作那些数据类型的功能外，还能支持事务，流水线，发布订阅和Lua语等功能
+    在高并发的场景中，往往我们需要保证数据的一致性，这是考虑使用Redis事务，或者是利用Redis执行
+    Lua的原子性来达到数据一致性的目的。
+使用Redis事务:
+    在Redis中使用事务，通常的命令组合是watch，multi，exec。也就是要在一个Redis连接中执行多个命令，
+    这时我们可以考虑使用SessionCallBack来达到这个目的。
+watch：是可以监控Redis的一些键；
+multi：是开始事务，开启事务后，该客户端的命令不会马上立即被执行，而是存放在一个队列中，结果返回null
+exec:执行事务，只是他在队列命令执行前会判断被watch监控的Redis的键的数据是否发生过改变，如果他认为发生了
+改变，（即使是相同的值覆盖也认为是改变）那么Redis就会取消事务。
+测试代码：
+

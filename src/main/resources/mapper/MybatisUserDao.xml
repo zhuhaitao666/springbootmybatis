@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.springbootmybatis.dao.MybatisUserDao">
+    <select id="getUser" resultType="com.xxx.springbootmybatis.bean.User">
+        select * from user where id=#{id};
+    </select>
+    <select id="getAllUsers" resultType="com.xxx.springbootmybatis.bean.User">
+        select * from `user`
+    </select>
+    <!-- 用于Redis测试-->
+    <select id="findUser" resultType="com.xxx.springbootmybatis.bean.User">
+        select * from user where id=#{id};
+    </select>
+    <insert id="insertUser" parameterType="com.xxx.springbootmybatis.bean.User"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into  user(`name`,note) values (#{name },#{note})
+    </insert>
+    <update id="updateUser" parameterType="com.xxx.springbootmybatis.bean.User">
+        update user
+        <set>
+            <if test="name!=null">
+                name =#{name },
+            </if>
+            <if test="note!=null">
+                note=#{note}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from `user` where id=#{id};
+    </delete>
+</mapper>

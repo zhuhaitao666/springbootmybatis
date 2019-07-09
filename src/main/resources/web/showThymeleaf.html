@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>-->
+    <!--<script type="text/javascript" src="/webjars/jquery/2.1.4/jquery.min.js"></script>-->
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        p{
+            color: red;
+        }
+        li{
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    Test Thymeleaf
+    <h3>Hello</h3>
+    <span th:text="${str}">span</span>
+    <h3>学生信息</h3>
+    id:<span th:text="${stu.id}">id123</span><br><!--前端工程师可以看到原始数据id123-->
+    name:<span th:text="${stu.name}">name123</span><br>
+    id:<input type="text" value="id123" th:value="${stu.id}">
+    name:<input type="text" value="name123" th:value="${stu.name}">
+    <br><a href="http://www.qq.com"th:href="@{http://www.baidu.com(${stu.id})}">链接</a>
+    <h3>循环列表遍历</h3>
+    <ul>
+        <li th:each="s:${students}" th:text="${s.name}">姓名</li>
+    </ul>
+    <h2>Table循环遍历</h2>
+    <table>
+        <tr th:each="s:${students}">
+            <td th:text="${s.id}">
+            <td th:text="${s.name}"></td>
+        </tr>
+    </table>
+    <h2>下拉菜单</h2>
+    <select>
+        <option th:each="s:${students}" th:value="${s.id}" th:text="${s.name}" th:selected="${s.id==stu.id}"></option>
+    </select>
+</body>
+</html>

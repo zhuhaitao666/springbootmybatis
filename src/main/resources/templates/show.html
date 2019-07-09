@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>-->
+    <script type="text/javascript" src="/webjars/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        p{
+            color: red;
+        }
+    </style>
+</head>
+<p>show模板:${str}</p>
+    <h5>学生</h5>
+<#if stu??><!--表示判断不为空-->
+    <span>id:${stu.id}</span>&nbsp;<span>name:${stu.name}</span>
+    <#else>
+    <span>#else没有结束符号，而且是嵌套在#if里面的！！！</span>
+</#if>
+    <h5>遍历学生</h5>
+    <#list students as s>
+        编号:${s.id} 姓名:${s.name}<hr>
+    </#list>
+
+    <button class="btn">测试</button>
+    <script type="text/javascript">
+        $("button").click(function () {
+           alert("点击按钮");
+        });
+    </script>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        文件:<input type="file" name="myFile"><br>
+        <input value="上传" type="submit">
+    </form>
+    <img src="/static/images/self.jpg"><br>
+    <img src="/web/1.jpg">
+</body>
+</html>

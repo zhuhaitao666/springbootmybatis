@@ -1,0 +1,12 @@
+1.SpringBoot
+JVM参数调优
+
+扫包调优：
+是启动优化，不属于运行优化。
+@SpringBootApplication 等同于
+@ComponentScan(com.xxx)
+@Configuration
+@EnableConfiguration 扫包核心
+
+默认Tomcat容器改为Undertow容器 吞吐量5000vs8000
+Toncat参数调优
